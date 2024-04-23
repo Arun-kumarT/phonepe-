@@ -29,19 +29,13 @@ tab1,tab2,tab3 = st.tabs(['Transaction','User','Statewise Visualization'])
 with tab1:
     col1, col2, col3 = st.columns(3)
     with col1:
-            sel = st.selectbox('**Type**',('Transaction Count','Transaction Amount'),key='sel') 
+            sel = st.selectbox('Type',('Transaction Count','Transaction Amount'),key='sel') 
     with col2:     
-            year = st.selectbox('**Year**',('All','2018','2019','2020','2021','2022','2023'),key ='year')  
+            year = st.selectbox('Year',('2018','2019','2020','2021','2022','2023'),key ='year')  
     with col3:        
-            quarter = st.selectbox('**Quarter**',('All','1','2','3','4'),key='quarter')
-    
-    if year == 'All':
-        year = '2023'
+            quarter = st.selectbox('Quarter',('1','2','3','4'),key='quarter')
 
-    yr_li=['2018','2019','2020','2021','2022','2023']    
-    if year in yr_li and quarter=='All':
-        year = year
-        quarter = 4 
+         
     cursor.execute(f"""SELECT State,sum(Transaction_count) FROM phonepe.agg_trans where Year={year} and quarter={quarter} group by State;""")
     agg_count = cursor.fetchall() 
     agg_count_df = pd.DataFrame(agg_count,columns=['State','Count'])
@@ -118,16 +112,10 @@ with tab1:
 with tab2:
     col1,col2 = st.columns(2)
     with col1:
-        year2 = st.selectbox('**Year**',('All','2018','2019','2020','2021','2022'),key='year2') 
+        year2 = st.selectbox('**Year**',('2018','2019','2020','2021','2022'),key='year2') 
     with col2:
-        quarter2 = st.selectbox('**Quarter**',('All','1','2','3','4'),key='quarter2')
-    if year2 == 'All':
-        year2 = '2022'
-
-    yr_li=['2018','2019','2020','2021','2022']    
-    if year2 in yr_li and quarter2=='All':
-         year2 = year2
-         quarter2 = 1   
+        quarter2 = st.selectbox('**Quarter**',('1','2','3','4'),key='quarter2')
+   
                      
     cursor.execute(f"""SELECT State,sum(Users_count) as Users FROM phonepe.agg_user where Year={year2} and Quarter={quarter2} group by State;""")
     us_year = cursor.fetchall()
@@ -170,19 +158,13 @@ with tab3:
     col1, col2,col3 = st.columns(3)
                   
     with col1:     
-            state = st.selectbox('**State**',state_list,key='state')
+            state = st.selectbox('State',state_list,key='state')
     with col2: 
-            year = st.selectbox('**Year**',('All','2018','2019','2020','2021','2022','2023'))  
+            year = st.selectbox('Year',('2018','2019','2020','2021','2022','2023'))  
     with col3:        
-            quarter = st.selectbox('**Quarter**',('All','1','2','3','4'))
+            quarter = st.selectbox('**Quarter**',('1','2','3','4'))
 
-    if year == 'All':
-        year = '2023'
-
-    yr_li=['2018','2019','2020','2021','2022','2023']    
-    if year in yr_li and quarter=='All':
-         year = year
-         quarter = 4 
+ 
 
     cursor.execute(f"""select State,Transaction_count,Transaction_amount,Transaction_type from agg_trans where Year={year} and Quarter={quarter};""")
     agg_trans = cursor.fetchall() 
