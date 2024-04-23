@@ -118,9 +118,9 @@ with tab2:
    
                      
     cursor.execute(f"""SELECT State,sum(Users_count) as Users FROM phonepe.agg_user where Year={year2} and Quarter={quarter2} group by State;""")
-    us_year = cursor.fetchall()
-    us_year_df = pd.DataFrame(us_year,columns=['State','Users'])
-    us_year_df = us_year_df.astype({'Users':'int64'})
+    user_year = cursor.fetchall()
+    user_year_df = pd.DataFrame(user_year,columns=['State','Users'])
+    user_year_df = user_year_df.astype({'Users':'int64'})
 
     cursor.execute(f"""SELECT District,sum(Total_users) FROM phonepe.map_user where Year={year2} and Quarter={quarter2} group by District;""")
     map_user = cursor.fetchall() 
@@ -146,7 +146,7 @@ with tab2:
     tabs1,tabs2,tabs3 = st.tabs(['States','Districts','Postal Codes'])
     with tabs1:
         st.write('### :rainboe[Top 10 States]')
-        st.dataframe(us_year_df.nlargest(10,'Users'),hide_index=True) 
+        st.dataframe(user_year_df.nlargest(10,'Users'),hide_index=True) 
     with tabs2:
         st.write('### :red[Top 10 Districts]')
         st.dataframe(map_user_df.nlargest(10,'User Count'),hide_index=True)
